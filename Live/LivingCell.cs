@@ -32,6 +32,8 @@ namespace Live
 
         public int GetHp() { return hp; }
 
+        public void SetHp(int hp) { this.hp = hp; }
+
         public void SetX(int x) { this.X = x; }
         public void SetY(int y) { this.Y = y; }
 

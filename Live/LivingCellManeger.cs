@@ -28,7 +28,7 @@ namespace Live
         {
             LivingCell[] newArray = new LivingCell[livingCell.Length + 1];
 
-            for (int i = 0; i < newArray.Length; i++)
+            for (int i = 0; i < newArray.Length - 1; i++)
             {
                 newArray[i] = livingCell[i];
             }
@@ -55,7 +55,7 @@ namespace Live
                 livingCell[i] = new LivingCell(
                     rnd.Next(minX + 1, maxX - 1),
                     rnd.Next(minY + 1, maxY - 1),
-                    rnd.Next(1, 10),
+                    rnd.Next(1, 3 + 1),
                     rnd.Next(0, 1 + 1)
                     );
             }
@@ -65,24 +65,29 @@ namespace Live
         {
             for (int i = 0; i < livingCell.Length; i++)
             {
-                livingCell[i].Move();
-
-                if (livingCell[i].GetY() < minY || livingCell[i].GetX() < minX || livingCell[i].GetX() > maxX || livingCell[i].GetY() > maxY)
+                if (livingCell[i].GetY() != 0 && livingCell[i].GetX() != 0)
                 {
-                    livingCell[i].SetX(rnd.Next(minX + 2, maxX - 2));
-                    livingCell[i].SetY(rnd.Next(minY + 2, maxY - 2));
+                    livingCell[i].Move();
+
+                    if (livingCell[i].GetY() < minY || livingCell[i].GetX() < minX || livingCell[i].GetX() > maxX || livingCell[i].GetY() > maxY)
+                    {
+                        livingCell[i].SetX(rnd.Next(minX + 2, maxX - 2));
+                        livingCell[i].SetY(rnd.Next(minY + 2, maxY - 2));
+                    }
                 }
             }
         }
 
         public void CheckFight()
         {
+            bool checkCount = true;
+
             for (int i = 0; i < livingCell.Length; i++)
             {
-                for (int j = i; j < livingCell.Length; j++)
+                for (int j = 0; j < livingCell.Length; j++)
                 {
                     if (livingCell[i].GetX() == livingCell[j].GetX() && // проверка на одинаковые координаты
-                        livingCell[i].GetY() == livingCell[j].GetY())
+                        livingCell[i].GetY() == livingCell[j].GetY() && i != j && checkCount)
                     {
                         if (livingCell[i].GetGender() == livingCell[j].GetGender()) //  проверка на одинаковые гендэры
                         {
@@ -90,21 +95,28 @@ namespace Live
                             {
                                 livingCell[j].SetY(0);
                                 livingCell[j].SetX(0);
+
+                                livingCell[i].SetHp(livingCell[i].GetHp() + 3); 
                             }
                             else
                             {
                                 livingCell[i].SetY(0);
                                 livingCell[i].SetX(0);
+
+                                livingCell[i].SetHp(livingCell[j].GetHp() + 3);
                             }
                         }
-                        else 
+                        else
                         {
                             ResizeArray();
 
                             AddNewCell();
+
+                            checkCount = false;
                         }
                     }
                 }
+                checkCount = true;
             }
         }
 
@@ -112,7 +124,10 @@ namespace Live
         {
             for (int i = 0; i < livingCell.Length; i++)
             {
-                livingCell[i].Draw();
+                if (livingCell[i].GetX() != 0 && livingCell[i].GetY() != 0)
+                {
+                    livingCell[i].Draw();
+                }
             }
         }
 
@@ -122,13 +137,13 @@ namespace Live
             {
                 Console.Clear();
 
-                ////CheckFight();
+                CheckFight();
 
                 MoveLivingCell();
 
                 Draw();
 
-                Thread.Sleep(300);
+                Thread.Sleep(100);
             }
         }
     }
