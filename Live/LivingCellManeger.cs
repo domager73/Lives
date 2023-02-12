@@ -96,21 +96,24 @@ namespace Live
                                 livingCell[j].SetY(0);
                                 livingCell[j].SetX(0);
 
-                                livingCell[i].SetHp(livingCell[i].GetHp() + 3); 
+                                livingCell[i].SetHp(livingCell[i].GetHp() + livingCell[j].GetHp() / 2); 
                             }
                             else
                             {
                                 livingCell[i].SetY(0);
                                 livingCell[i].SetX(0);
 
-                                livingCell[i].SetHp(livingCell[j].GetHp() + 3);
+                                livingCell[i].SetHp(livingCell[j].GetHp() + livingCell[i].GetHp() / 2);
                             }
                         }
                         else
                         {
-                            ResizeArray();
+                            if (rnd.Next(1, 30 + 1) == 4)
+                            {
+                                ResizeArray();
 
-                            AddNewCell();
+                                AddNewCell();
+                            }
 
                             checkCount = false;
                         }
