@@ -26,18 +26,18 @@ namespace Live
             this.look = gender == 0? '#' : '@';
         }
 
-        public int GetX(){ return X; }
+        public int GetX() => X; 
         
-        public int GetY() { return Y; }
+        public int GetY() => Y; 
 
-        public int GetHp() { return hp; }
+        public int GetHp() => hp; 
 
-        public void SetHp(int hp) { this.hp = hp; }
+        public void SetHp(int hp) => this.hp = hp;
 
-        public void SetX(int x) { this.X = x; }
-        public void SetY(int y) { this.Y = y; }
+        public void SetX(int x) => this.X = x;
+        public void SetY(int y) => this.Y = y;
 
-        public int GetGender() { return gender; }
+        public int GetGender() => gender;
 
         public void Draw() 
         {
